@@ -15,6 +15,25 @@ Validator.localize('it', italian);
 
 export default {
     name: "AdminBoard",
+    data: function () {
+        return {
+            file_import_danea: "",
+            txt_search_customer: "",
+            txt_search_invoice: "",
+            active_template: "importazione_danea",
+            rows_invoice: [],
+            columns_invoice: [
+                { label: 'Numero Fattura', field: 'numero fattura' },
+                { label: 'Data Fattura', field: 'data fattura', type: 'date', inputFormat: 'YYYYMMDD', outputFormat: 'DD/MM/YYYY' },
+                { label: 'Codice Fiscale/Partita Iva', field: 'vatcode', }
+            ],
+            rows_customers: [],
+            columns_customers: [
+                { label: 'Name', field: 'name' },
+                { label: 'Codice Fiscale/Partita Iva', field: 'vatcode' }
+            ]
+        }
+    },
     methods: {
         logout(event) {
             var router = this.$router;
@@ -27,6 +46,27 @@ export default {
                     }
                 });
         },
+        importazione_danea(event) {
+            console.log("Switch to importazione Danea");
+            this.active_template = "importazione_danea";
+        },
+        anagrafica_clienti(event) {
+            console.log("Switch Anagrafica clienti");
+            this.active_template = "anagrafica_clienti";
+        },
+        consulta_fatture(event) {
+            console.log("Switch to consulta fatture");
+            this.active_template = "consulta_fatture";
+        },
+        search_customer(event) {
+
+        },
+        search_invoice(event) {
+
+        },
+        import_from_danea(event) {
+             
+        }
     },
     computed: {
         customer: function () {
