@@ -1,0 +1,10 @@
+input.validation-error{
+  border-width: 3px;
+  border-color: red;
+}
+
+.validation-error {
+  display: block;
+  position: relative;
+  color: #ff3860;
+}

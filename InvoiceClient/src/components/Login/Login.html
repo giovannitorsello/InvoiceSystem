@@ -1,0 +1,18 @@
+<div>
+  <template v-if="isLogged == false">
+    <div class="container">
+      <div class="row main">
+        <div class="main-login main-center">
+          <h5>Login</h5>
+
+          <input type="text"  class="form-control" v-model="customer.username" placeholder="Inserisci username" name="name"/>
+          <input type="password"  class="form-control" v-model="customer.password" placeholder="Inserisci password" name="name"/>
+          <div class="form-group ">
+            <button name="loginButton" v-on:click="login" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+</div>
