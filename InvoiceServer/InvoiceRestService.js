@@ -4,7 +4,7 @@ var numeral = require('numeral');
 var dateFormat = require('dateformat');
 
 var utility = require("./utility.js");
-const pdfInvoice = require('pdf-invoice');
+//const pdfInvoice = require('pdf-invoice');
 const fs = require('fs');
 const blobStream = require('blob-stream');
 const danea_xml_import=require("./daneaXMLImport");
@@ -230,9 +230,9 @@ module.exports = {
   },
 
   uploadInvoices(req, res, invoiceObjDb){
-    console.log("Begin import form danea");
-    console.log(res);
-    danea_xml_import.import_xml_from_danea(res,req,invoiceObjDb);
+    console.log("Begin import from Danea Easy Fact");
+    danea_xml_import.import_xml_from_danea(req,res,invoiceObjDb);
+    console.log("Begin import from Danea Easy Fact");
   },
 
   invoiceStore(req, res, invoiceObjDb) {

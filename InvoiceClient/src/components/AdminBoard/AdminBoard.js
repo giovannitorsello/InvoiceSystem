@@ -23,9 +23,10 @@ export default {
             uploadedFiles: [],
             uploadError: null,
             currentStatus: STATUS_INITIAL,
-            uploadFieldName: 'Xml Danea files',
+            uploadFieldName: 'XmlDaneaFiles',
 
-
+            //update ui durint import
+            import_report: {},
             file_import_danea: "",
             txt_search_customer: "",
             txt_search_invoice: "",
@@ -113,34 +114,27 @@ export default {
             this.uploadedFiles = [];
             this.uploadError = null;
         },
-        upload: function (formData) {            
-            return axios.post(config.server_http + "/importFromDanea", formData)
-                // get data
-                .then(x => x.data)
-                // add url field
-                .then(x => x.map(img => Object.assign({},
-                    img, { url: `${BASE_URL}/images/${img.id}` })));
-        },
-        save: function (formData) {
-            // upload data to the server
-            this.currentStatus = STATUS_SAVING;
-            this.upload(formData);
-        },
         filesChange: function (fieldName, fileList) {
-            // handle file changes
-            const formData = new FormData();
-
+            var this_obj=this;            
+            const formData = new FormData();            
             if (!fileList.length) return;
-
             // append the files to FormData
             Array
                 .from(Array(fileList.length).keys())
                 .map(x => {
                     formData.append(fieldName, fileList[x], fileList[x].name);
                 });
-
-            // save it
-            this.save(formData);
+            this.currentStatus = STATUS_SAVING;
+            axios.post(config.server_http + "/importFromDanea", formData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                })
+                .then(
+                function (res) {
+                    this_obj.currentStatus = STATUS_SUCCESS;
+                    console.log(res);
+                    this_obj.import_report=res.data;                    
+                });
         }
     },
     computed: {

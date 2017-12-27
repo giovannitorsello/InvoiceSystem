@@ -23,7 +23,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade active show" id="import" role="tabpanel" aria-labelledby="import-tab">
-            <p>Importazione file Daenea Easy Fact</p>
+            <p>Importazione file Danea Easy Fact</p>
               <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
                 <h1>Upload XML Files</h1>
                 <div class="dropbox">
@@ -32,15 +32,19 @@
                                               @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
                                               accept="" class="input-file">
                   <p v-if="isInitial">
-                    Drag your file(s) here to begin
-                    <br> or click to browse
+                    Trascina il file qui per iniziare l'importazione
+                    <br> oppure clicca per scegliere il file
                   </p>
                   <p v-if="isSaving">
-                    Uploading {{ fileCount }} files...
-                  </p>
+                    Sto caricando {{ fileCount }} 
+                  </p>                  
                 </div>
-              </form>
-            
+              </form>  
+              <p v-if="isSuccess">
+                  Nuove fatture importate: {{import_report.invoice_imported}} <br>
+                  Fatture già esistenti: {{import_report.invoice_existing}} <br>
+                  Errori di importazione: {{import_report.errors}} <br>                    
+              </p>            
         </div>
         <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="customers-tab">
           <p>Anagrafica clienti</p>

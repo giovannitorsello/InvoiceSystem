@@ -1,15 +1,14 @@
 var config  = require("./config.js");
-var async = require("async");
+
 var express = require('express');
-var formidable = require('formidable');
+var multer  = require('multer');
 var bodyParser = require('body-parser');
 var orm = require('orm');
-var app = express();
 var cors = require('cors')
-var path = require('path');
 var custlib = require('./CustomerRestService');
 var invlib = require('./InvoiceRestService');
 
+var app = express();
 var Invoice={};
 var Customer={};
 
@@ -18,11 +17,13 @@ app.use(cors());
 //covert body to JSON
 app.use(bodyParser.json());
 //parsing request object data during post
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies.
+app.use(bodyParser.json({limit: '20mb'}));
 //static contents folders
 app.use(express.static('cache'));
 app.use(config.server.cachefolder, express.static('cache'));
-app.use(formidable({encoding: 'utf-8',uploadDir: '/uploads',multiples: true}));
+
+var upload = multer({ dest: './uploads/' })
 
 app.use(orm.express(config.database.connectionstring, {
     define: function (db, models, next) {
@@ -90,7 +91,7 @@ app.post('/customerDelete', function(req, res) {custlib.customerDelete(req, res,
 app.post('/customerFind', function(req, res) {custlib.customerFind(req, res, Customer)});
 
 
-app.post('/importFromDanea', function(req, res) {invlib.uploadInvoices(req, res, Invoice)});
+app.post('/importFromDanea', upload.array("XmlDaneaFiles" ,20), function(req, res) {invlib.uploadInvoices(req, res, Invoice, Customer)});
 app.post('/getInvoices', function(req, res) {invlib.getInvoices(req, res, Invoice)});
 app.post('/printInvoice', function(req, res) {invlib.printInvoice(req, res, Invoice)});
 app.post('/invoiceFind', function(req, res) {invlib.invoiceFind(req, res, Invoice)});
