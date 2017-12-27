@@ -1,13 +1,18 @@
+var formidable = require('formidable');
 
 module.exports = {
 
-  var file="fatture.DefXml";
-  var company={};
-  var documents=[];
-  var n_invoices_new=0, n_invoices_existing=0, n_errors=0;
-  var buffer ="";
+  file: "fatture.DefXml",
+  company: {},
+  documents: [],
+  n_invoices_new: 0, 
+  n_invoices_existing: 0, 
+  n_errors: 0,
+  buffer: "",
+  Invoice: {},
 
-function import_xml_from_danea(req, res){
+ import_xml_from_danea: function(req, res, InvoiceDB) {
+  Invoice=InvoiceDB;
   n_invoices_new=0; n_invoices_existing=0; n_errors=0;
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
@@ -35,11 +40,10 @@ function import_xml_from_danea(req, res){
           }); //parse xml end
 
       });
-
-
   });
+},
 
-  function InsertUpdateDB(obj, cb)
+  InsertUpdateDB: function(obj, cb)
   {
       Invoice.find({"code": obj.CustomerCode, "number": obj.Number, "numbering": obj.Numbering, "date": obj.Date}, function(err, invs) {
           if (err) throw err;
@@ -72,67 +76,16 @@ function import_xml_from_danea(req, res){
               n_invoices_existing++;
               cb();
           }
-          if(invs.length>1) {console.log("Error on import invoice. ("+n_errors+")");n_errors++;cb();}
-          makePdfInvoice(obj);
+          if(invs.length>1) {console.log("Error on import invoice. ("+n_errors+")");n_errors++;cb();}          
       }); //find end
-
-  }
-
-  function update_ui(res)
-  {
-      buffer = "<p>Import finished</p>";
-      buffer += "<p>New invoices: " + n_invoices_new + "</p>";
-      buffer += "<p>Existing invoices: " + n_invoices_existing + "</p>";
-      buffer += "<p>Import errors: " + n_errors + "</p>";
-      res.send(buffer);
+  },
+  update_ui: function(res)
+  {      
+      result = {"invoice_imported": n_invoices_new , 
+                "invoice_existing": n_invoices_existing,
+                "errors": n_errors};
+      res.send(result);
       res.end();
-      console.log(buffer);
-      console.log(n_invoices_existing);
-
+      console.log(result);
   }
-
-  function makePdfInvoice(obj)
-  {
-      var invoice_items=[];
-      obj.Rows.forEach(function (item){
-          invoice_items.push({amount: item.Total,
-                              name: item.Description,
-                              quantity: item.Qty,
-                              price: item.Price,
-                              vatcode: item.VatCode
-                          });
-      });
-
-      const document = pdfInvoice({
-          company: {
-              name: company.Name,
-              address: company.Address,
-              phone: company.Tel,
-              vatcode: company.VatCode,
-              email: company.Email
-          },
-          customer: {
-              name: obj.CustomerName,
-              email: obj.CustomerEmail,
-              vatcode: obj.CustomerVatCode,
-              codfis: obj.CustomerFiscalCode,
-              tel: obj.CustomerTel,
-              cellphone: obj.CustomerCellPhone
-          },
-          items: [invoice_items]
-      });
-
-      // That's it! Do whatever you want now.
-      // Pipe it to a file for instance:
-
-      const fs = require('fs');
-
-      document.generate(); // triggers rendering
-
-      filename_pdf=obj.CustomerCode+"_"+obj.Number+"_"+obj.Numbering+obj.CustomerFiscalCode+".pdf"
-      document.pdfkitDoc.pipe(fs.createWriteStream(__dirname,"/uploads/"+filename_pdf));
-  }
-
-}
-
 }

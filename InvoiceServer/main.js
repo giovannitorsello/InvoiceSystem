@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //static contents folders
 app.use(express.static('cache'));
 app.use(config.server.cachefolder, express.static('cache'));
+app.use(formidable({encoding: 'utf-8',uploadDir: '/uploads',multiples: true}));
 
 app.use(orm.express(config.database.connectionstring, {
     define: function (db, models, next) {
@@ -81,14 +82,16 @@ app.get("/", function (req, res) {
     res.sendFile(file_html);
 });
 
-app.post('/upload_file_def_xml', function(req, res) {});
-app.get('/customerLogin',  function(req, res) {custlib.customerLogin(req, res, Customer)});
 
 app.post('/customerLogin',  function(req, res) {custlib.customerLogin(req, res, Customer)});
 app.post('/customerLogout', function(req, res) {custlib.customerLogout(req, res, Customer)});
 app.post('/customerStore',  function(req, res) {custlib.customerStore(req, res, Customer)});
 app.post('/customerDelete', function(req, res) {custlib.customerDelete(req, res, Customer)});
+app.post('/customerFind', function(req, res) {custlib.customerFind(req, res, Customer)});
 
 
+app.post('/importFromDanea', function(req, res) {invlib.uploadInvoices(req, res, Invoice)});
 app.post('/getInvoices', function(req, res) {invlib.getInvoices(req, res, Invoice)});
 app.post('/printInvoice', function(req, res) {invlib.printInvoice(req, res, Invoice)});
+app.post('/invoiceFind', function(req, res) {invlib.invoiceFind(req, res, Invoice)});
+app.post('/invoiceDelete', function(req, res) {invlib.invoiceDelete(req, res, Invoice)});

@@ -58,9 +58,14 @@ module.exports = {
   },
 
   customerFind(req, res, custObjDb) {
-    var obj=req.obj;
-    custObjDb.Find(obj, function (list) {
-        res.send(JSON.stringyfy(list));
+    var obj=req.body;
+    console.log("Search"); console.log(obj);
+    custObjDb.find(obj, function (err, list) {
+      if (err) res.send({ status: "error", err: err });
+      else {
+        console.log(JSON.stringify(list));
+        res.send({ status: "success", customers: JSON.stringify(list) });
+      }
     });
   }
 }

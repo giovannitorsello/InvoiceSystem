@@ -7,6 +7,7 @@ var utility = require("./utility.js");
 const pdfInvoice = require('pdf-invoice');
 const fs = require('fs');
 const blobStream = require('blob-stream');
+const danea_xml_import=require("./daneaXMLImport");
 
 const company={
                 name: "WIFINETCOM SRL", 
@@ -228,6 +229,12 @@ module.exports = {
     res.send({ filePdfUrl: filenameURL });
   },
 
+  uploadInvoices(req, res, invoiceObjDb){
+    console.log("Begin import form danea");
+    console.log(res);
+    danea_xml_import.import_xml_from_danea(res,req,invoiceObjDb);
+  },
+
   invoiceStore(req, res, invoiceObjDb) {
 
   },
@@ -238,8 +245,13 @@ module.exports = {
 
   invoiceFind(req, res, invoiceObjDb) {
     var obj = req.obj;
-    invoiceObjDb.Find(obj, function (list) {
-      res.send(JSON.stringyfy(list));
+    console.log("Search"); console.log(obj);
+    invoiceObjDb.find(obj, function (err, list) {
+      if (err) res.send({ status: "error", err: err });
+      else {
+        console.log(JSON.stringify(list));
+        res.send({ status: "success", invoices: JSON.stringify(list) });
+      }
     });
   }
 
