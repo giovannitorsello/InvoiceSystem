@@ -115,8 +115,8 @@ export default {
             this.uploadError = null;
         },
         filesChange: function (fieldName, fileList) {
-            var this_obj=this;            
-            const formData = new FormData();            
+            var this_obj = this;
+            const formData = new FormData();
             if (!fileList.length) return;
             // append the files to FormData
             Array
@@ -125,7 +125,7 @@ export default {
                     formData.append(fieldName, fileList[x], fileList[x].name);
                 });
             this.currentStatus = STATUS_SAVING;
-            axios.post(config.server_http + "/importFromDanea", formData,
+            axios.post(config.server_http + "/importFromDaneaInvoices", formData,
                 {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 })
@@ -133,7 +133,16 @@ export default {
                 function (res) {
                     this_obj.currentStatus = STATUS_SUCCESS;
                     console.log(res);
-                    this_obj.import_report=res.data;                    
+                    this_obj.import_report = res.data;
+                    /*
+                    //aggiornamento lista clienti
+                    axios.post(config.server_http + "/importFromDaneaCustomers", formData,
+                        {
+                            headers: { 'Content-Type': 'multipart/form-data' }
+                        })
+                        .then(
+                        function (res) {
+                        });*/
                 });
         }
     },

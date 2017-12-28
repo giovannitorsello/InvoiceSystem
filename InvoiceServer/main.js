@@ -50,8 +50,7 @@ app.use(orm.express(config.database.connectionstring, {
             CustomerFiscalCode: String,
             CustomerVatCode: String,
             CustomerAddress:String,
-            CustomerPostcode: String,
-            CustomerAddress: String,
+            CustomerPostcode: String,            
             CustomerEmail: String,
             CustomerCellPhone: String,
             CustomerTel: String,
@@ -59,7 +58,7 @@ app.use(orm.express(config.database.connectionstring, {
             CustomerDateCreation:   Date,
             CustomerUsername: String,
             CustomerPassword: String,
-            CustomerAuthTokenCode: String
+            CustomerRole: String  //administrator, customer
         });
 
 
@@ -91,7 +90,7 @@ app.post('/customerDelete', function(req, res) {custlib.customerDelete(req, res,
 app.post('/customerFind', function(req, res) {custlib.customerFind(req, res, Customer)});
 
 
-app.post('/importFromDanea', upload.array("XmlDaneaFiles" ,20), function(req, res) {invlib.uploadInvoices(req, res, Invoice, Customer)});
+app.post('/importFromDaneaInvoices', upload.array("XmlDaneaFiles" ,20), function(req, res) {invlib.uploadInvoicesFromDaneaXml(req, res, Invoice, Customer)});
 app.post('/getInvoices', function(req, res) {invlib.getInvoices(req, res, Invoice)});
 app.post('/printInvoice', function(req, res) {invlib.printInvoice(req, res, Invoice)});
 app.post('/invoiceFind', function(req, res) {invlib.invoiceFind(req, res, Invoice)});

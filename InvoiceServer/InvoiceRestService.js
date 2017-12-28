@@ -229,9 +229,8 @@ module.exports = {
     res.send({ filePdfUrl: filenameURL });
   },
 
-  uploadInvoices(req, res, invoiceObjDb){
-    console.log("Begin import from Danea Easy Fact");
-    danea_xml_import.import_xml_from_danea(req,res,invoiceObjDb);
+  uploadInvoicesFromDaneaXml(req, res, invoiceObjDb, customerObjDb){
+    danea_xml_import.import_xml_from_danea_invoices(req,res,invoiceObjDb,customerObjDb);
     console.log("Begin import from Danea Easy Fact");
   },
 

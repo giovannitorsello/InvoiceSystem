@@ -67,7 +67,7 @@ module.exports = {
         res.send({ status: "success", customers: JSON.stringify(list) });
       }
     });
-  }
+  },
 }
 
 
