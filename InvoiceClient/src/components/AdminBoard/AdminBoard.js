@@ -56,6 +56,13 @@ export default {
                     }
                 });
         },
+        print_invoice(data) {
+            axios.post(config.server_http + "/printInvoice", { username: session.user, invoice: data })
+                .then(function (response) {
+                    var pdf_url = response.data.filePdfUrl;
+                    window.open(pdf_url, "_self");
+                });
+        },
         search_customer(event) {
 
         },
@@ -64,19 +71,6 @@ export default {
         },
         import_from_danea(event) {
             console.log("importing danea xml file");
-
-            /* var component = this;
-             axios.post(config.server_http + "/importFromDanea", obj_search)
-                 .then(function (response) {
-                     if (response.data.status === "success") {
-                         component.rows_customers = JSON.parse(response.data.customers);
-                         console.log(component.rows_customers);
-                     }
-                     if (response.data.status === "error") {
-                         console.log("Error");
-                         console.log(response.data.err);
-                     }
-                 });*/
         },
         load_customers_table(event) {
             var component = this;
@@ -134,15 +128,6 @@ export default {
                     this_obj.currentStatus = STATUS_SUCCESS;
                     console.log(res);
                     this_obj.import_report = res.data;
-                    /*
-                    //aggiornamento lista clienti
-                    axios.post(config.server_http + "/importFromDaneaCustomers", formData,
-                        {
-                            headers: { 'Content-Type': 'multipart/form-data' }
-                        })
-                        .then(
-                        function (res) {
-                        });*/
                 });
         }
     },

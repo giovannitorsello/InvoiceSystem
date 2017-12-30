@@ -1,16 +1,18 @@
 var utility=require("./utility.js");
+var orm = require('orm');
+
 module.exports = {
 
-  customerLogin(req, res, custObjDb) {
-    cust={CustomerUsername: req.body.username, CustomerPassword: req.body.password};
+  customerLogin(req, res, custObjDb) {    
+    var cust={CustomerUsername: req.body.username, CustomerPassword: req.body.password};    
     custObjDb.find(cust, function (err, list){
-      if(err) throw err;
+      if(err) res.send({error: err, status: "login_fail", user: cust});;
       if(list.length==1)
       {
         cust=list[0];
         cust.CustomerAuthTokenCode=utility.makeAuthenticationCode();
         cust.save(cust, function(err){
-          if(err) throw err;
+          if(err) console.log(err);
           console.log("Update new customer, generating authentication code");
           console.log(cust);          
           res.send({status: "login_success", user: cust});
@@ -18,7 +20,7 @@ module.exports = {
       }
       else {
         console.log("Wrong credential!!!");
-        res.send({error: "not logged"});
+        res.send({error: "No username or password", status: "login_failure", user: cust});
       }
 
     });
