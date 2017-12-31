@@ -25,8 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies.
 app.use(bodyParser.json({ limit: '20mb' }));
 //static contents folders
-app.use(express.static('cache'));
-app.use(config.server.cachefolder, express.static('cache'));
+app.use('/static', express.static(__dirname + config.server.cachefolder));
 
 var upload = multer({ dest: './uploads/' })
 
@@ -138,6 +137,7 @@ app.post('/customerLogout', function (req, res) { custlib.customerLogout(req, re
 app.post('/customerStore', function (req, res) { custlib.customerStore(req, res, Customer) });
 app.post('/customerDelete', function (req, res) { custlib.customerDelete(req, res, Customer) });
 app.post('/customerFind', function (req, res) { custlib.customerFind(req, res, Customer) });
+app.post('/sendCredential', function (req, res) { custlib.sendCredential(req, res, Customer) });
 
 
 app.post('/importFromDaneaInvoices', upload.array("XmlDaneaFiles", 20), function (req, res) { invlib.uploadInvoicesFromDaneaXml(req, res, Invoice, Customer) });

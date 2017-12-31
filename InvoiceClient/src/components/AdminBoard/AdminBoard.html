@@ -1,82 +1,84 @@
 <div>
   <template>
-    <div class="container">
+    <div class="container-fluid">
       <p align="left">
         <a href="#">Benvenuto {{customer.CustomerUsername}}</a>
       </p>
-
-      <div class="bd-example bd-example-tabs">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="import-tab" data-toggle="tab" href="#import" role="tab" aria-controls="import" aria-selected="true">Importazione</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="customer-tab" data-toggle="tab" href="#customers" role="tab" aria-controls="customers" aria-selected="false">Clienti</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab" aria-controls="invoice" aria-selected="false">Fatture</a>
-          </li>
-          <li class="nav-item">
-            <a v-on:click="logout" class="nav-link" id="logout-tab" data-toggle="tab" href="#logout" role="tab" aria-controls="logout"
-              aria-selected="false">Esci</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade active show" id="import" role="tabpanel" aria-labelledby="import-tab">
-            <p>Importazione file Danea Easy Fact</p>
+      <div class="row main">
+        <div class="administrator-tab">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="import-tab" data-toggle="tab" href="#import" role="tab" aria-controls="import" aria-selected="true">Importazione</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="customer-tab" data-toggle="tab" href="#customers" role="tab" aria-controls="customers" aria-selected="false">Clienti</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab" aria-controls="invoice" aria-selected="false">Fatture</a>
+            </li>
+            <li class="nav-item">
+              <a v-on:click="logout" class="nav-link" id="logout-tab" data-toggle="tab" href="#logout" role="tab" aria-controls="logout"
+                aria-selected="false">Esci</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade active show" id="import" role="tabpanel" aria-labelledby="import-tab">
+              <p>Importazione file Danea Easy Fact</p>
               <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
                 <h1>Upload XML Files</h1>
                 <div class="dropbox">
-                  <input type="file" multiple :name="uploadFieldName" 
-                                              :disabled="isSaving" 
-                                              @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-                                              accept="" class="input-file">
+                  <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+                    accept="" class="input-file">
                   <p v-if="isInitial">
                     Trascina il file qui per iniziare l'importazione
                     <br> oppure clicca per scegliere il file
                   </p>
                   <p v-if="isSaving">
-                    Sto caricando {{ fileCount }} 
-                  </p>                  
+                    Sto caricando {{ fileCount }}
+                  </p>
                 </div>
-              </form>  
+              </form>
               <p v-if="isSuccess">
-                  Nuove fatture importate: {{import_report.invoice_imported}} <br>
-                  Fatture già esistenti: {{import_report.invoice_existing}} <br>
-                  Nuovi utenti creati: {{import_report.customer_imported}} <br>
-                  Utenti già esistenti: {{import_report.customer_existing}} <br>                  
-                  Errori di importazione: {{import_report.errors}} <br>                    
-              </p>            
-        </div>
-        <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="customers-tab">
-          <p>Anagrafica clienti</p>
-          <input v-model="txt_search_customer" v-on:change="search_customer" />
-          <vue-good-table title="Elenco Clienti" :columns="columns_customers" :rows="rows_customers" :lineNumbers="true" :globalSearch="true"
-            :paginate="true" styleClass="table condensed table-bordered table-striped">
-            <template slot="table-row" slot-scope="props">
-              <td>{{ props.row.CustomerName }}</td>
-              <td>{{ props.row.CustomerFiscalCode }} - {{ props.row.CustomerVatCode }}</td>
-            </template>
-          </vue-good-table>
-        </div>
-        <div class="tab-pane fade" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
-          <p>Consultazione Fatture</p>
-          <input v-model="txt_search_invoice" v-on:change="search_invoice" />
-          <vue-good-table title="Elenco Fatture" :columns="columns_invoices" :rows="rows_invoices" :lineNumbers="true" :globalSearch="true"
-            :paginate="true" styleClass="table condensed table-bordered table-striped">
-            <template slot="table-row" slot-scope="props">
-              <td>{{ props.row.number }}</td>
-              <td>{{ props.row.date }}</td>
-              <td>{{ props.row.codfis }} - {{ props.row.pariva }}</td>
-              <td v-on:click="print_invoice(props.row)">Stampa fattura</td>
-            </template>
-          </vue-good-table>
+                Nuove fatture importate: {{import_report.invoice_imported}}
+                <br> Fatture già esistenti: {{import_report.invoice_existing}}
+                <br> Nuovi utenti creati: {{import_report.customer_imported}}
+                <br> Utenti già esistenti: {{import_report.customer_existing}}
+                <br> Errori di importazione: {{import_report.errors}}
+                <br>
+              </p>
+            </div>
+            <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="customers-tab">
+              <p>Anagrafica clienti</p>
+              <input v-model="txt_search_customer" v-on:change="search_customer" />
+              <vue-good-table title="Elenco Clienti" :columns="columns_customers" :rows="rows_customers" :lineNumbers="true" :globalSearch="true"
+                :paginate="true" styleClass="table condensed table-bordered table-striped">
+                <template slot="table-row" slot-scope="props">
+                  <td>{{ props.row.CustomerName }}</td>
+                  <td>{{ props.row.CustomerFiscalCode }} - {{ props.row.CustomerVatCode }}</td>
+                  <td>{{ props.row.CustomerUsername }}</td>
+                  <td>{{ props.row.CustomerPassword }}</td>
+                  <td>{{ props.row.CustomerEmail }}</td>
+                  <td>{{ props.row.CustomerCellPhone }} {{ props.row.CustomerTel }}</td>
+                  <td v-on:click="send_credential(props.row)">Invia credenzaili</td>
+                </template>
+              </vue-good-table>
+            </div>
+            <div class="tab-pane fade" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
+              <p>Consultazione Fatture</p>
+              <input v-model="txt_search_invoice" v-on:change="search_invoice" />
+              <vue-good-table title="Elenco Fatture" :columns="columns_invoices" :rows="rows_invoices" :lineNumbers="true" :globalSearch="true"
+                :paginate="true" styleClass="table condensed table-bordered table-striped">
+                <template slot="table-row" slot-scope="props">
+                  <td>{{ props.row.number }}</td>
+                  <td>{{ props.row.date }}</td>
+                  <td>{{ props.row.codfis }} - {{ props.row.pariva }}</td>
+                  <td v-on:click="print_invoice(props.row)">Stampa fattura</td>
+                </template>
+              </vue-good-table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-</div>
-<div class="row main">
-</div>
-
-</template>
+  </template>
 </div>

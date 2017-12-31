@@ -39,11 +39,11 @@ export default {
           session.reloadSession();
           console.log(session.user);
           
-          if(session.user.admin==="true")
+          if(session.user.CustomerRole==="administrator")
             router.replace("/adminboard");
           else
-            router.replace("/adminboard");
-            //router.replace("/dashboard");
+            router.replace("/dashboard");
+            //router.replace("/adminboard");            
           console.log(response);
           console.log(session);          
         }

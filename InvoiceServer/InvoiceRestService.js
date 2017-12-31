@@ -1,3 +1,4 @@
+const config = require("./config.js");
 var pdfKit = require('pdfkit');
 var moment = require('moment');
 var numeral = require('numeral');
@@ -9,12 +10,7 @@ const fs = require('fs');
 const blobStream = require('blob-stream');
 const danea_xml_import=require("./daneaXMLImport");
 
-const company={
-                name: "WIFINETCOM SRL", 
-                address: "Via Agnesi 16, CAP 73052, Casarano [LE], Puglia, Italy", 
-                phone: "(0039) (0)833 599327", 
-                email: "contabilita@wifinetcom.net"
-              };
+const company=config.company;
 //Constants for export invoice in pdf
 const TEXT_SIZE = 10;
 const TEXT_SIZE_COMPANY_DATA = 8;

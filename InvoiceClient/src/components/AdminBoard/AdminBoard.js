@@ -40,7 +40,11 @@ export default {
             rows_customers: [],
             columns_customers: [
                 { label: 'Name', field: 'name' },
-                { label: 'Codice Fiscale/Partita Iva', field: 'vatcode' }
+                { label: 'Codice Fiscale/Partita Iva', field: 'vatcode' },
+                { label: 'Username', field: 'username' },
+                { label: 'Password', field: 'password' },
+                { label: 'Email', field: 'email' },
+                { label: 'Telefoni', field: 'telefoni' },
             ]
         }
     },
@@ -55,6 +59,12 @@ export default {
                         router.replace("/login");
                     }
                 });
+        },
+        send_credential(data){
+            axios.post(config.server_http + "/sendCredential", { user: session.user, customerData: data })
+            .then(function (response) {
+                
+            });
         },
         print_invoice(data) {
             axios.post(config.server_http + "/printInvoice", { username: session.user, invoice: data })

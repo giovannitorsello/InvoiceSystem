@@ -1,3 +1,13 @@
+.administrator-tab {
+  width: 100%;
+  height: 100%;
+
+}
+
+.container {
+  max-width: "2000px" !important;
+}
+
 .dropbox {
     outline: 2px dashed grey; /* the dash box */
     outline-offset: -10px;
