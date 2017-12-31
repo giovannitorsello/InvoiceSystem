@@ -33,18 +33,23 @@ export default {
             active_template: "importazione_danea",
             rows_invoices: [],
             columns_invoices: [
-                { label: 'Numero Fattura', field: 'numero fattura' },
-                { label: 'Data Fattura', field: 'data fattura', type: 'date', inputFormat: 'YYYYMMDD', outputFormat: 'DD/MM/YYYY' },
-                { label: 'Codice Fiscale/Partita Iva', field: 'vatcode', }
+                { label: 'Numero Fattura', field: 'number'},
+                { label: 'Data Fattura', field: 'date', type: 'date', inputFormat: 'YYYY-MM-DD', outputFormat: 'DD/MM/YYYY'},
+                { label: 'Codice Fiscale', field: 'codfis'},
+                { label: 'Partita Iva', field: 'pariva'},
+                { label: 'Azione'}
             ],
             rows_customers: [],
             columns_customers: [
-                { label: 'Name', field: 'name' },
-                { label: 'Codice Fiscale/Partita Iva', field: 'vatcode' },
-                { label: 'Username', field: 'username' },
-                { label: 'Password', field: 'password' },
-                { label: 'Email', field: 'email' },
-                { label: 'Telefoni', field: 'telefoni' },
+                { label: 'Name', field: 'CustomerName'},
+                { label: 'Codice Fiscale', field: 'CustomerFiscalCode'},
+                { label: 'Partita Iva', field: 'CustomerVatCode'},
+                { label: 'Username', field: 'CustomerUsername' },
+                { label: 'Password', field: 'CustomerPassword' },
+                { label: 'Email', field: 'CustomerEmail'},
+                { label: 'Mobile', field: 'CustomerCellPhone'},
+                { label: 'Fisso', field: 'CustomerTel'},
+                { label: 'Azione'}
             ]
         }
     },

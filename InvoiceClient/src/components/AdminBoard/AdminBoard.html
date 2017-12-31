@@ -49,29 +49,42 @@
             </div>
             <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="customers-tab">
               <p>Anagrafica clienti</p>
-              <input v-model="txt_search_customer" v-on:change="search_customer" />
-              <vue-good-table title="Elenco Clienti" :columns="columns_customers" :rows="rows_customers" :lineNumbers="true" :globalSearch="true"
-                :paginate="true" styleClass="table condensed table-bordered table-striped">
+              <!--input v-model="txt_search_customer" v-on:change="search_customer" /-->
+              <vue-good-table 
+                title="Elenco Clienti" 
+                :columns="columns_customers" 
+                :rows="rows_customers" 
+                :paginate="true" 
+                :lineNumbers="true"                
+                :globalSearch="true"               
+                styleClass="table condensed table-bordered table-striped">
                 <template slot="table-row" slot-scope="props">
                   <td>{{ props.row.CustomerName }}</td>
-                  <td>{{ props.row.CustomerFiscalCode }} - {{ props.row.CustomerVatCode }}</td>
+                  <td>{{ props.row.CustomerFiscalCode }}</td>
+                  <td>{{ props.row.CustomerVatCode }}</td>
                   <td>{{ props.row.CustomerUsername }}</td>
                   <td>{{ props.row.CustomerPassword }}</td>
                   <td>{{ props.row.CustomerEmail }}</td>
-                  <td>{{ props.row.CustomerCellPhone }} {{ props.row.CustomerTel }}</td>
-                  <td v-on:click="send_credential(props.row)">Invia credenzaili</td>
+                  <td>{{ props.row.CustomerCellPhone }}</td>
+                  <td>{{ props.row.CustomerTel }}</td>
+                  <td v-on:click="send_credential(props.row)">Invia credenziali</td>
                 </template>
               </vue-good-table>
             </div>
             <div class="tab-pane fade" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
               <p>Consultazione Fatture</p>
-              <input v-model="txt_search_invoice" v-on:change="search_invoice" />
-              <vue-good-table title="Elenco Fatture" :columns="columns_invoices" :rows="rows_invoices" :lineNumbers="true" :globalSearch="true"
-                :paginate="true" styleClass="table condensed table-bordered table-striped">
-                <template slot="table-row" slot-scope="props">
+              <vue-good-table 
+                title="Elenco Fatture" 
+                :columns="columns_invoices" 
+                :rows="rows_invoices" 
+                :lineNumbers="true"                 
+                :paginate="true" 
+                :globalSearch="true"s>
+               <template slot="table-row" slot-scope="props">
                   <td>{{ props.row.number }}</td>
                   <td>{{ props.row.date }}</td>
-                  <td>{{ props.row.codfis }} - {{ props.row.pariva }}</td>
+                  <td>{{ props.row.codfis }}</td>
+                  <td>{{ props.row.pariva }}</td>
                   <td v-on:click="print_invoice(props.row)">Stampa fattura</td>
                 </template>
               </vue-good-table>

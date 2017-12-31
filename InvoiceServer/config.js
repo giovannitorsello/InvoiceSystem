@@ -24,8 +24,8 @@ module.exports = {
         },
         auth: {
             type: "login",
-            user: "fatturazione@wifinetcom.net",
-            pass: "##fatturazione##2018##"
+            user: "",
+            pass: ""
         },
         defaultFrom: '"Wifinetcom SRL" <noreply@wifinetcom.com>'
     },    
