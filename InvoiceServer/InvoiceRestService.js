@@ -216,8 +216,8 @@ module.exports = {
     var invoice_date=dateFormat(new Date(invoice.Date),"yyyymmdd");
     var filename_invoice=(new Date()).getTime()+"_"+invoice.Number+invoice_date+".pdf";
     console.log(filename_invoice);    
-    var filename_cache = "./cache/"+filename_invoice;
-    var filenameURL = "http://localhost:1111/static/"+filename_invoice;
+    var filename_cache = "."+config.server.cachefolder+"/"+filename_invoice;
+    var filenameURL = "http://"+config.server.hostname+":"+config.server.port+"/static/"+filename_invoice;
     var stream = fs.createWriteStream(filename_cache)
     document.pipe(stream);
     res.send({ filePdfUrl: filenameURL });
