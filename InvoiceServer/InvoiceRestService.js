@@ -189,7 +189,7 @@ function printInvoiceByTemplate(invoice_obj) {
   ypos=doc_height-4*PAGE_MARGIN.bottom-2*doc.currentLineHeight();
   doc.text(str_footer, xpos, ypos, {width: doc_width-PAGE_MARGIN.right, align: "left", valign:"bottom"});
                   
-  console.log(invoice_obj.data);
+  //console.log(invoice_obj.data);
 
   doc.end();
 
@@ -198,13 +198,11 @@ function printInvoiceByTemplate(invoice_obj) {
 
 module.exports = {
   getInvoices(req, res, invoiceObjDb) {
-    //var obj={codfis: req.body.codfis};  
-    var obj = { codfis: "LRANMC63R54G712U" };
-    console.log("Search"); console.log(obj);
+    var obj={CustomerFiscalCode: req.body.CustomerFiscalCode, CustomerVatCode: req.body.CustomerVatCode};      
     invoiceObjDb.find(obj, function (err, list) {
       if (err) res.send({ status: "error", err: err });
       else {
-        console.log(JSON.stringify(list));
+        //console.log(JSON.stringify(list));
         res.send({ status: "success", invoices: JSON.stringify(list) });
       }
     });
@@ -240,11 +238,11 @@ module.exports = {
 
   invoiceFind(req, res, invoiceObjDb) {
     var obj = req.obj;
-    console.log("Search"); console.log(obj);
+    console.log("Search"); 
     invoiceObjDb.find(obj, function (err, list) {
       if (err) res.send({ status: "error", err: err });
       else {
-        console.log(JSON.stringify(list));
+        //console.log(JSON.stringify(list));
         res.send({ status: "success", invoices: JSON.stringify(list) });
       }
     });
@@ -261,7 +259,7 @@ function Find(obj, invoiceObjDb, cb) {
 
 function Remove(obj, invoiceObjDb, cb) {
   invoiceObjDb.find({ invoiceFiscalCode: obj.invoiceFiscalCode }).remove(function (err) {
-    if (err) { console.log("Error in deleting invoice"); console.log(obj); }
+    if (err) { console.log("Error in deleting invoice");}
     // success
   });
 }

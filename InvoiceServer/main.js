@@ -1,6 +1,7 @@
 var config = require("./config.js");
 
 var express = require('express');
+var FileCleaner = require('cron-file-cleaner').FileCleaner;
 var multer = require('multer');
 var bodyParser = require('body-parser');
 var orm = require('orm');
@@ -11,6 +12,10 @@ var invlib = require('./InvoiceRestService');
 var app = express();
 var Invoice = {};
 var Customer = {};
+
+//settin process to clean temporary folder as cache and uploads
+var fileWatcherUpload = new FileCleaner(__dirname+'/uploads/', 600000,  '* */45 * * * *', {start: true});
+var fileWatcherCache = new FileCleaner(__dirname+'/cache/', 600000,  '* */45 * * * *', {start: true});
 
 process.on('unhandledRejection', error => {
     // Will print "unhandledRejection err is not defined"
