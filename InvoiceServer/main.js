@@ -33,23 +33,23 @@ app.use(orm.express(config.database.connectionstring, {
     define: function (db, models, next) {
 
         Invoice = db.define("invoice", {
-            code: String,
-            name: String,
-            codfis: String,
-            pariva: String,
-            address: String,
-            postcode: String,
-            tel: String,
-            mobile: String,
-            email: String,
-            number: String,
-            numbering: String,
-            date: Date,
+            InvoiceCode: String,
+            CustomerName: String,
+            CustomerFiscalCode: String,
+            CustomerVatCode: String,
+            CustomerAddress: String,
+            CustomerPostcode: String,
+            CustomerTel: String,
+            CustomerCellPhone: String,
+            CustomerEmail: String,
+            Number: { type: "text", unique: "numfatt" },
+            Numbering: { type: "text", unique: "numfatt" },
+            Date: Date,
             data: Object
         },{
             hooks: {
                 beforeCreate: function () {   
-                    var obj_invoice={"code": obj.CustomerCode, "number": obj.Number, "numbering": obj.Numbering, "date": obj.Date };                     
+                    var obj_invoice={"code": this.code, "number": this.number, "numbering": this.numbering, "date": this.date };                     
                     Invoice.exists(obj_invoice, function (err, exists) {
                         if (exists)
                             return Promise.reject({ message: "Existing Invoice: "+obj_invoice.Number+"/"+obj.Numbering+"/"+obj.CustomerCode });
@@ -64,6 +64,7 @@ app.use(orm.express(config.database.connectionstring, {
 
         Customer = db.define("customer", {
             CustomerName: String,
+            CustomerCode: { type: "text", unique: "code" },
             CustomerFiscalCode: { type: "text", unique: "codfis" },
             CustomerVatCode: { type: "text", unique: "codiva" },
             CustomerAddress: String,
@@ -98,7 +99,7 @@ app.use(orm.express(config.database.connectionstring, {
         db.sync(function (err) {
             if (err) throw err;
             //create default administrators
-            var cust_obj_admin_1 = { CustomerUsername: "giovanni.torsello", CustomerPassword: "essequel2018", CustomerFiscalCode: "TRSGNN73H26i549A", CustomerRole: "administrator"};
+            var cust_obj_admin_1 = { CustomerCode: "##administrator1##", CustomerUsername: "giovanni.torsello", CustomerPassword: "essequel2018", CustomerFiscalCode: "TRSGNN73H26i549A", CustomerRole: "administrator"};
             Customer.create(cust_obj_admin_1, function (err) {
                 if (!err)
                     console.log("admin created");
@@ -106,7 +107,7 @@ app.use(orm.express(config.database.connectionstring, {
                     console.log("admin existing");
             });
 
-            var cust_obj_admin_2 = { CustomerUsername: "vincenzo.pomarico", CustomerPassword: "cobretti2018", CustomerFiscalCode: "PMRVNC73H26i549A",CustomerRole: "administrator"};            
+            var cust_obj_admin_2 = { CustomerCode: "##administrator2##", CustomerPassword: "cobretti2018", CustomerFiscalCode: "PMRVNC73H26i549A",CustomerRole: "administrator"};            
             Customer.create(cust_obj_admin_2, function (err) {
                 if (!err)
                     console.log("admin created");

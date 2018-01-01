@@ -60,8 +60,7 @@
                 styleClass="table condensed table-bordered table-striped">
                 <template slot="table-row" slot-scope="props">
                   <td>{{ props.row.CustomerName }}</td>
-                  <td>{{ props.row.CustomerFiscalCode }}</td>
-                  <td>{{ props.row.CustomerVatCode }}</td>
+                  <td><span v-html="getVatCode(props.row)"></span></td>
                   <td>{{ props.row.CustomerUsername }}</td>
                   <td>{{ props.row.CustomerPassword }}</td>
                   <td>{{ props.row.CustomerEmail }}</td>
@@ -81,10 +80,9 @@
                 :paginate="true" 
                 :globalSearch="true"s>
                <template slot="table-row" slot-scope="props">
-                  <td>{{ props.row.number }}</td>
-                  <td>{{ props.row.date }}</td>
-                  <td>{{ props.row.codfis }}</td>
-                  <td>{{ props.row.pariva }}</td>
+                  <td>{{ props.row.Number }}{{ props.row.Numbering }}</td>
+                  <td><span v-html="formatDate(props.row.Date)"></span></td>
+                  <td><span v-html="getVatCode(props.row)"></span></td>
                   <td v-on:click="print_invoice(props.row)">Stampa fattura</td>
                 </template>
               </vue-good-table>

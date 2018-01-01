@@ -68,19 +68,19 @@ module.exports = {
 
 function InsertUpdateDBInvoices(obj, callback_customer, callback_async) {
     Invoice.create({
-        "code": obj.CustomerCode,
-        "name": obj.CustomerName,
-        "codfis": obj.CustomerFiscalCode,
-        "pariva": obj.CustomerVatCode,
-        "address": obj.CustomerAddress,
-        "postcode": obj.CustomerPostcode,
-        "tel": obj.CustomerTel,
-        "mobile": obj.CustomerCellPhone,
-        "email": obj.CustomerEmail,
-        "number": obj.Number,
-        "numbering": obj.Numbering,
-        "date": obj.Date,
-        "data": obj
+        CustomerCode: obj.CustomerCode,
+        CustomerName: obj.CustomerName,
+        CustomerFiscalCode: obj.CustomerFiscalCode,
+        CustomerVatCode: obj.CustomerVatCode,
+        CustomerAddress: obj.CustomerAddress,
+        CustomerPostcode: obj.CustomerPostcode,
+        CustomerTel: obj.CustomerTel,
+        CustomerCellPhone: obj.CustomerCellPhone,
+        CustomerEmail: obj.CustomerEmail,
+        Number: obj.Number,
+        Numbering: obj.Numbering,
+        Date: obj.Date,
+        data: obj
     }, function (err) {
         if (!err) n_invoices_new++;
         else n_invoices_existing++;
@@ -95,13 +95,17 @@ function InsertUpdateDBCustomers(obj, err, callback) {
     if (obj.CustomerFiscalCode) username = obj.CustomerFiscalCode;
     else if (obj.CustomerVatCode) username = obj.CustomerVatCode;
     else username = date_now.getTime();
-    password = makeAuthenticationCode();
+    password = obj.CustomerCode;
     Customer.create({
+        CustomerCode: obj.CustomerCode,
         CustomerName: obj.CustomerName,
         CustomerFiscalCode: obj.CustomerFiscalCode,
         CustomerVatCode: obj.CustomerVatCode,
         CustomerAddress: obj.CustomerAddress,
         CustomerPostcode: obj.CustomerPostcode,
+        CustomerProvince: obj.CustomerProvince,
+        CustomerCity: obj.CustomerCity,
+        CustomerCountry: obj.CustomerCountry,
         CustomerEmail: obj.CustomerEmail,
         CustomerCellPhone: obj.CustomerCellPhone,
         CustomerTel: obj.CustomerTel,

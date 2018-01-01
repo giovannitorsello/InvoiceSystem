@@ -8,6 +8,9 @@ module.exports = {
         var d=new Date(); //now date
         var ticks = d.getTime();
         return ticks.toString()+rnd.toString();
+    },
+    makePinCode(){
+        return randtoken.generate(5, "0123456789");        
     }
 
 }

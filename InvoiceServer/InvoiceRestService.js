@@ -75,9 +75,9 @@ function printInvoiceByTemplate(invoice_obj) {
   ypos=HEADER_HEIGHT;
   xpos=PAGE_MARGIN.left;
   doc.fontSize(TEXT_SIZE); 
-  var invoice_date=new Date(invoice_obj.date);
-  doc.text("Fattura n.: "+invoice_obj.number + 
-                        '/' + invoice_obj.numbering +
+  var invoice_date=new Date(invoice_obj.Date);
+  doc.text("Fattura n.: "+invoice_obj.Number + 
+                        '/' + invoice_obj.Numbering +
                         '  del  ' + dateFormat("dd/mm/yyyy"), 
                         PAGE_MARGIN.left, ypos);
   
@@ -89,10 +89,10 @@ function printInvoiceByTemplate(invoice_obj) {
   ypos+=4*doc.currentLineHeight();
   doc.text("Destinatario:", xpos, ypos);
   ypos+=doc.currentLineHeight();
-  doc.text(invoice_obj.name, xpos, ypos);
+  doc.text(invoice_obj.CustomerName, xpos, ypos);
   ypos+=doc.currentLineHeight();
-  doc.text(invoice_obj.address + 
-            ', CAP ' + invoice_obj.postcode + 
+  doc.text(invoice_obj.CustomerAddress + 
+            ', CAP ' + invoice_obj.CustomerPostcode + 
             ', '+invoice_obj.data.CustomerCity+
             ', ['+invoice_obj.data.CustomerProvince+']'+
             ', '+invoice_obj.data.CustomerCountry,
@@ -102,19 +102,19 @@ function printInvoiceByTemplate(invoice_obj) {
   doc.text("Telefono: " +invoice_obj.data.CustomerTel, xpos, ypos);
   ypos+=doc.currentLineHeight();
   doc.text("Mobile: " + invoice_obj.data.CustomerCellPhone, xpos, ypos);
-  if(invoice_obj.email!=null) {
+  if(invoice_obj.CustomerEmail!=null) {
     ypos+=doc.currentLineHeight();
-    doc.text("Email: "+invoice_obj.email, xpos, ypos);
+    doc.text("Email: "+invoice_obj.CustomerEmail, xpos, ypos);
   }
     
-  if(invoice_obj.codfis!=null) {
+  if(invoice_obj.CustomerFiscalCode!=null) {
     ypos+=doc.currentLineHeight();
-    doc.text("Codice fiscale: "+invoice_obj.codfis, xpos, ypos);
+    doc.text("Codice fiscale: "+invoice_obj.CustomerFiscalCode, xpos, ypos);
   }
     
-  if(invoice_obj.pariva!=null) {
+  if(invoice_obj.CustomerVatCode!=null) {
     ypos+=doc.currentLineHeight();
-    doc.text("Partita IVA: "+invoice_obj.pariva, xpos, ypos);
+    doc.text("Partita IVA: "+invoice_obj.CustomerVatCode, xpos, ypos);
   }
     
   ypos+=2*doc.currentLineHeight();
@@ -215,8 +215,8 @@ module.exports = {
     var invoice = body_req.invoice;    
     console.log("Render pdf invoice wait...")
     var document = printInvoiceByTemplate(invoice);
-    var invoice_date=dateFormat(new Date(invoice.date),"yyyymmdd");
-    var filename_invoice=(new Date()).getTime()+"_"+invoice.number+invoice_date+".pdf";
+    var invoice_date=dateFormat(new Date(invoice.Date),"yyyymmdd");
+    var filename_invoice=(new Date()).getTime()+"_"+invoice.Number+invoice_date+".pdf";
     console.log(filename_invoice);    
     var filename_cache = "./cache/"+filename_invoice;
     var filenameURL = "http://localhost:1111/static/"+filename_invoice;
@@ -266,17 +266,13 @@ function Remove(obj, invoiceObjDb, cb) {
   });
 }
 
+/*
 function InsertUpdate(obj, invoiceObjDb, cb) {
   invoiceObjDb.find(obj, function (err, invoices) {
     if (err) throw err;
     if (invoices.length === 0) { //no result in database -> insert new invoice in database
       console.log("Create new invoice");
-      console.log(obj);
-      /* invoiceObjDb.create(obj, function(err) {
-           if (err) throw err;                
-           console.log(obj);
-           //cb();
-       }); //create end */
+      console.log(obj);      
     }
     if (invoices.length === 1) {
       invoiceObjDb.save(obj, function (err) {
@@ -289,3 +285,4 @@ function InsertUpdate(obj, invoiceObjDb, cb) {
     if (invoices.length > 1) { console.log("Error duplicate invoice"); }
   }); //find end
 }
+*/

@@ -35,15 +35,14 @@ export default {
             columns_invoices: [
                 { label: 'Numero Fattura', field: 'number'},
                 { label: 'Data Fattura', field: 'date', type: 'date', inputFormat: 'YYYY-MM-DD', outputFormat: 'DD/MM/YYYY'},
-                { label: 'Codice Fiscale', field: 'codfis'},
-                { label: 'Partita Iva', field: 'pariva'},
+                { label: 'Codice Fiscale/Partita IVA', field: 'codfis'},
+                //{ label: 'Partita Iva', field: 'pariva'},
                 { label: 'Azione'}
             ],
             rows_customers: [],
             columns_customers: [
                 { label: 'Name', field: 'CustomerName'},
-                { label: 'Codice Fiscale', field: 'CustomerFiscalCode'},
-                { label: 'Partita Iva', field: 'CustomerVatCode'},
+                { label: 'Codice Fiscale/Partita IVA', field: 'CustomerFiscalCode'},                
                 { label: 'Username', field: 'CustomerUsername' },
                 { label: 'Password', field: 'CustomerPassword' },
                 { label: 'Email', field: 'CustomerEmail'},
@@ -54,6 +53,21 @@ export default {
         }
     },
     methods: {
+        getFullNumberInvoice(row) {
+            return row.number+" "+row.numbering;
+        },
+        getVatCode(row) {
+            if(row.CustomerFiscalCode && row.CustomerVatCode) return row.CustomerFiscalCode+" <br> " +row.CustomerVatCode;
+            else if(row.CustomerVatCode) return row.CustomerVatCode;
+            else if(row.CustomerFiscalCode) return row.CustomerFiscalCode;            
+            else return "estremi fiscali non inseriti";
+        },
+        formatDate: function(stringDate) {
+            var dateFormatted="";
+            var d=new Date(stringDate);
+            var dateFormatted = d.getDate()  + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+            return dateFormatted;
+        },
         logout(event) {
             var router = this.$router;
             console.log(session.user.CustomerUsername);
@@ -94,7 +108,7 @@ export default {
                 .then(function (response) {
                     if (response.data.status === "success") {
                         component.rows_customers = JSON.parse(response.data.customers);
-                        console.log(component.rows_customers);
+                        //console.log(component.rows_customers);
                     }
                     if (response.data.status === "error") {
                         console.log("Error");
@@ -109,7 +123,7 @@ export default {
                 .then(function (response) {
                     if (response.data.status === "success") {
                         component.rows_invoices = JSON.parse(response.data.invoices);
-                        console.log(component.rows_invoices);
+                        //console.log(component.rows_invoices);
                     }
                     if (response.data.status === "error") {
                         console.log("Error");
