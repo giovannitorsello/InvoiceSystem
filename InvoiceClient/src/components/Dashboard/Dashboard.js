@@ -66,7 +66,7 @@ export default {
       console.log(session.user.CustomerUsername);
       console.log(session.user.CustomerFiscalCode);
 
-      axios.post(config.server_http+"/getInvoices", { codfis: session.user.CustomerFiscalCode })
+      axios.post(config.server_http+"/getInvoices", { CustomerFiscalCode: session.user.CustomerFiscalCode, CustomerVatCode: session.user.CustomerVatCode})
         .then(function (response) {
           if (response.data.status === "success") {
             component.rows = JSON.parse(response.data.invoices);

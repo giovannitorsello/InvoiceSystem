@@ -198,7 +198,7 @@ function printInvoiceByTemplate(invoice_obj) {
 
 module.exports = {
   getInvoices(req, res, invoiceObjDb) {
-    var obj={CustomerFiscalCode: req.body.CustomerFiscalCode, CustomerVatCode: req.body.CustomerVatCode};      
+    var obj=req.body;      
     invoiceObjDb.find(obj, function (err, list) {
       if (err) res.send({ status: "error", err: err });
       else {

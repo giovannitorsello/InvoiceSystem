@@ -9,7 +9,7 @@
         <ul class="nav navbar-nav">
           <li class="active">
             <a href="#" v-on:click="logout">Esci</a>
-            <a href="#" v-on:click="load_invoices">Aggiorna lista fatture</a>
+            <!--a href="#" v-on:click="load_invoices">Aggiorna lista fatture</a-->
             
           </li>          
         </ul>
@@ -28,9 +28,9 @@
                 :paginate="true"
                 styleClass="table condensed table-bordered table-striped">
                 <template slot="table-row" slot-scope="props">                 
-                  <td>{{ props.row.number }}</td>                                                     
-                  <td>{{ props.row.date }}</td>
-                  <td>{{ props.row.codfis }} - {{ props.row.pariva }}</td>
+                  <td>{{ props.row.Number }}</td>                                                     
+                  <td>{{ props.row.Date }}</td>
+                  <td>{{ props.row.CustomerFiscalCode }} <br> {{ props.row.CustomerVatCode }}</td>
                   <td v-on:click="print_invoice(props.row)">Stampa fattura</td>
                 </template>
               </vue-good-table>            
